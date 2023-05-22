@@ -1,0 +1,60 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Cart Items | Shopkart
+{% endblock title %}
+{% block content %}
+<section class="bg-light py-4 my-5" style="min-height: 600px;">
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3"><b>Cart Items</b></h4>
+                <hr style="border-color:#b8bfc2;">
+            </div>
+            <table class="table table-bordered">
+                <br>
+                <tr>
+                    <th class="table-dark"><center>Image</center></th>
+                    <th class="table-dark"><center>Product Name</center></th>
+                    <th class="table-dark"><center>Unit</center></th>
+                    <th class="table-dark"><center>Quantity</center></th>
+                    <th class="table-dark"><center>Amount</center></th>
+                    <th class="table-dark"><center>Remove</center></th>
+                </tr>
+                {% for item in cart %}
+                <tr>
+                    <td><center><img src="{{item.product.product_image.url}}" height="75px" alt="{{item.product.name}}"></center></td>
+                    <td><center><br>{{item.product.name}}</center></td>
+                    <td><center><br>{{item.product.selling_price | stringformat:'d'}}</center></td>
+                    <td><center><br>{{item.product_qty}}</center></td>
+                    <td class="amt"><center><br>{{item.total_cost | stringformat:'d'}}</center></td>
+
+                    <td><center><br><a href="{% url 'remove_cart' item.id %}" onclick="return confirm('Are you sure? to Remove')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</a></center></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2" class="table-dark"><center><b>Shopkart Online Shopping</b></center></td>
+                    <td colspan="2" class="bg-warning"><center><b>Total Amount</b></center></td>
+                    <th id="net" class="table-dark bg-success" >   0</th>
+                    <td class="table-dark"><center>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fa fa-check-circle"></i> Check Out
+                        </button></center>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>     
+</section>
+
+<script>
+    const nodes = document.querySelectorAll('.amt');
+    const arr = Array.from(nodes);
+    const res = arr.reduce((acc, curr) => {
+     return acc += Number(curr.textContent)
+    }, 0);
+    document.getElementById("net").innerHTML=" Rs : "+res;
+    net.style.textAlign = "center" ;
+  </script>
+{% endblock content %}
+ 
